@@ -18,7 +18,7 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu when route changes
+  // Fermer le menu mobile lors du changement de route
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location]);
@@ -45,7 +45,7 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Navigation Desktop */}
           <nav className="hidden md:flex items-center gap-6">
             <Link
               to="/"
@@ -53,36 +53,60 @@ const Navbar = () => {
                 location.pathname === "/" ? "text-primary" : "text-foreground/80"
               }`}
             >
-              Home
+              Accueil
             </Link>
             <Link
-              to="/dashboard"
+              to="/tableau-de-bord"
               className={`text-sm font-medium transition-colors hover:text-primary ${
-                location.pathname === "/dashboard" ? "text-primary" : "text-foreground/80"
+                location.pathname === "/tableau-de-bord" ? "text-primary" : "text-foreground/80"
               }`}
             >
-              Dashboard
+              Tableau de Bord
             </Link>
             <Link
-              to="/data-input"
+              to="/saisie-donnees"
               className={`text-sm font-medium transition-colors hover:text-primary ${
-                location.pathname === "/data-input" ? "text-primary" : "text-foreground/80"
+                location.pathname === "/saisie-donnees" ? "text-primary" : "text-foreground/80"
               }`}
             >
-              Data Input
+              Saisie de Données
             </Link>
             <Link
-              to="/reports"
+              to="/rapports"
               className={`text-sm font-medium transition-colors hover:text-primary ${
-                location.pathname === "/reports" ? "text-primary" : "text-foreground/80"
+                location.pathname === "/rapports" ? "text-primary" : "text-foreground/80"
               }`}
             >
-              Reports
+              Rapports
+            </Link>
+            <Link
+              to="/objectifs"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                location.pathname === "/objectifs" ? "text-primary" : "text-foreground/80"
+              }`}
+            >
+              Objectifs
+            </Link>
+            <Link
+              to="/analyses"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                location.pathname === "/analyses" ? "text-primary" : "text-foreground/80"
+              }`}
+            >
+              Analyses
+            </Link>
+            <Link
+              to="/parametres"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                location.pathname === "/parametres" ? "text-primary" : "text-foreground/80"
+              }`}
+            >
+              Paramètres
             </Link>
           </nav>
 
           <div className="flex items-center gap-4">
-            <Button className="hidden md:inline-flex">Sign In</Button>
+            <Button className="hidden md:inline-flex">Connexion</Button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden p-2 rounded-md text-foreground"
@@ -98,7 +122,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Navigation Mobile */}
       {isMobileMenuOpen && (
         <div className="md:hidden glass-card m-4 animate-fade-in">
           <nav className="flex flex-col p-4 gap-2">
@@ -110,39 +134,69 @@ const Navbar = () => {
                   : "hover:bg-muted"
               }`}
             >
-              Home
+              Accueil
             </Link>
             <Link
-              to="/dashboard"
+              to="/tableau-de-bord"
               className={`py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-                location.pathname === "/dashboard" 
+                location.pathname === "/tableau-de-bord" 
                   ? "bg-primary/10 text-primary" 
                   : "hover:bg-muted"
               }`}
             >
-              Dashboard
+              Tableau de Bord
             </Link>
             <Link
-              to="/data-input"
+              to="/saisie-donnees"
               className={`py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-                location.pathname === "/data-input" 
+                location.pathname === "/saisie-donnees" 
                   ? "bg-primary/10 text-primary" 
                   : "hover:bg-muted"
               }`}
             >
-              Data Input
+              Saisie de Données
             </Link>
             <Link
-              to="/reports"
+              to="/rapports"
               className={`py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-                location.pathname === "/reports" 
+                location.pathname === "/rapports" 
                   ? "bg-primary/10 text-primary" 
                   : "hover:bg-muted"
               }`}
             >
-              Reports
+              Rapports
             </Link>
-            <Button className="mt-2 w-full">Sign In</Button>
+            <Link
+              to="/objectifs"
+              className={`py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                location.pathname === "/objectifs" 
+                  ? "bg-primary/10 text-primary" 
+                  : "hover:bg-muted"
+              }`}
+            >
+              Objectifs
+            </Link>
+            <Link
+              to="/analyses"
+              className={`py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                location.pathname === "/analyses" 
+                  ? "bg-primary/10 text-primary" 
+                  : "hover:bg-muted"
+              }`}
+            >
+              Analyses
+            </Link>
+            <Link
+              to="/parametres"
+              className={`py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                location.pathname === "/parametres" 
+                  ? "bg-primary/10 text-primary" 
+                  : "hover:bg-muted"
+              }`}
+            >
+              Paramètres
+            </Link>
+            <Button className="mt-2 w-full">Connexion</Button>
           </nav>
         </div>
       )}

@@ -8,6 +8,9 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Reports from "./pages/Reports";
 import DataInput from "./pages/DataInput";
+import Objectifs from "./pages/Objectifs";
+import Analyses from "./pages/Analyses";
+import Parametres from "./pages/Parametres";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,10 +23,12 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/data-input" element={<DataInput />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/tableau-de-bord" element={<Dashboard />} />
+          <Route path="/rapports" element={<Reports />} />
+          <Route path="/saisie-donnees" element={<DataInput />} />
+          <Route path="/objectifs" element={<Objectifs />} />
+          <Route path="/analyses" element={<Analyses />} />
+          <Route path="/parametres" element={<Parametres />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

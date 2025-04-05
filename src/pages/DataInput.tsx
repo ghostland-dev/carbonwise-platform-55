@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,22 +33,22 @@ const DataInput = () => {
   const handleManualSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: "Data submitted successfully",
-      description: "Your emissions data has been recorded.",
+      title: "Données soumises avec succès",
+      description: "Vos données d'émissions ont été enregistrées.",
     });
   };
   
   const handleFileUpload = () => {
     toast({
-      title: "File uploaded",
-      description: "Your data file is being processed.",
+      title: "Fichier téléchargé",
+      description: "Votre fichier de données est en cours de traitement.",
     });
   };
   
   const handleConnectAPI = () => {
     toast({
-      title: "API connected",
-      description: "Successfully connected to external data source.",
+      title: "API connectée",
+      description: "Connexion réussie à la source de données externe.",
     });
   };
 
@@ -58,87 +59,87 @@ const DataInput = () => {
       <div className="container pt-24 pb-16 max-w-6xl mx-auto">
         <div className="flex flex-col space-y-6">
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">Data Input</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Saisie de Données</h1>
             <p className="text-muted-foreground">
-              Add your emissions data through manual entry, file upload, or connect to external systems.
+              Ajoutez vos données d'émissions par saisie manuelle, import de fichier ou connexion à des systèmes externes.
             </p>
           </div>
           
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid grid-cols-3 w-full md:w-[400px]">
-              <TabsTrigger value="manual">Manual Entry</TabsTrigger>
-              <TabsTrigger value="upload">File Upload</TabsTrigger>
-              <TabsTrigger value="api">External Data</TabsTrigger>
+              <TabsTrigger value="manual">Saisie Manuelle</TabsTrigger>
+              <TabsTrigger value="upload">Import Fichier</TabsTrigger>
+              <TabsTrigger value="api">Données Externes</TabsTrigger>
             </TabsList>
             
             <TabsContent value="manual" className="space-y-6 mt-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Manual Data Entry</CardTitle>
+                  <CardTitle>Saisie Manuelle de Données</CardTitle>
                   <CardDescription>
-                    Enter your emissions data directly using the form below.
+                    Entrez vos données d'émissions directement via le formulaire ci-dessous.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleManualSubmit} className="space-y-6">
                     <div className="grid gap-4 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="activityName">Activity Name</Label>
-                        <Input id="activityName" placeholder="e.g., Business Travel" required />
+                        <Label htmlFor="activityName">Nom de l'activité</Label>
+                        <Input id="activityName" placeholder="ex: Voyages d'affaires" required />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="date">Date</Label>
                         <Input id="date" type="date" required />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="ghgScope">GHG Protocol Scope</Label>
+                        <Label htmlFor="ghgScope">Scope GHG Protocol</Label>
                         <Select defaultValue="scope1">
                           <SelectTrigger>
-                            <SelectValue placeholder="Select scope" />
+                            <SelectValue placeholder="Sélectionner un scope" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="scope1">Scope 1 (Direct Emissions)</SelectItem>
-                            <SelectItem value="scope2">Scope 2 (Indirect Emissions - Energy)</SelectItem>
-                            <SelectItem value="scope3">Scope 3 (Indirect Emissions - Value Chain)</SelectItem>
+                            <SelectItem value="scope1">Scope 1 (Émissions directes)</SelectItem>
+                            <SelectItem value="scope2">Scope 2 (Émissions indirectes - Énergie)</SelectItem>
+                            <SelectItem value="scope3">Scope 3 (Émissions indirectes - Chaîne de valeur)</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="category">Category</Label>
+                        <Label htmlFor="category">Catégorie</Label>
                         <Select>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select category" />
+                            <SelectValue placeholder="Sélectionner une catégorie" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="stationary">Stationary Combustion</SelectItem>
-                            <SelectItem value="mobile">Mobile Combustion</SelectItem>
-                            <SelectItem value="fugitive">Fugitive Emissions</SelectItem>
-                            <SelectItem value="process">Process Emissions</SelectItem>
-                            <SelectItem value="purchased_electricity">Purchased Electricity</SelectItem>
-                            <SelectItem value="purchased_heat">Purchased Heat</SelectItem>
-                            <SelectItem value="business_travel">Business Travel</SelectItem>
-                            <SelectItem value="employee_commuting">Employee Commuting</SelectItem>
-                            <SelectItem value="waste">Waste Generated</SelectItem>
-                            <SelectItem value="transportation">Transportation & Distribution</SelectItem>
+                            <SelectItem value="stationary">Combustion stationnaire</SelectItem>
+                            <SelectItem value="mobile">Combustion mobile</SelectItem>
+                            <SelectItem value="fugitive">Émissions fugitives</SelectItem>
+                            <SelectItem value="process">Émissions de procédés</SelectItem>
+                            <SelectItem value="purchased_electricity">Électricité achetée</SelectItem>
+                            <SelectItem value="purchased_heat">Chaleur achetée</SelectItem>
+                            <SelectItem value="business_travel">Voyages d'affaires</SelectItem>
+                            <SelectItem value="employee_commuting">Déplacements domicile-travail</SelectItem>
+                            <SelectItem value="waste">Déchets générés</SelectItem>
+                            <SelectItem value="transportation">Transport & Distribution</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="quantity">Quantity</Label>
-                        <Input id="quantity" type="number" step="0.01" min="0" placeholder="0.00" required />
+                        <Label htmlFor="quantity">Quantité</Label>
+                        <Input id="quantity" type="number" step="0.01" min="0" placeholder="0,00" required />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="unit">Unit</Label>
+                        <Label htmlFor="unit">Unité</Label>
                         <Select defaultValue="kg">
                           <SelectTrigger>
-                            <SelectValue placeholder="Select unit" />
+                            <SelectValue placeholder="Sélectionner une unité" />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="kg">kg CO₂e</SelectItem>
                             <SelectItem value="ton">tonnes CO₂e</SelectItem>
                             <SelectItem value="kwh">kWh</SelectItem>
-                            <SelectItem value="liter">Liters</SelectItem>
-                            <SelectItem value="km">Kilometers</SelectItem>
+                            <SelectItem value="liter">Litres</SelectItem>
+                            <SelectItem value="km">Kilomètres</SelectItem>
                             <SelectItem value="mile">Miles</SelectItem>
                           </SelectContent>
                         </Select>
@@ -146,17 +147,17 @@ const DataInput = () => {
                     </div>
                     
                     <div>
-                      <Label htmlFor="notes">Notes (Optional)</Label>
+                      <Label htmlFor="notes">Notes (Optionnel)</Label>
                       <textarea 
                         id="notes" 
-                        placeholder="Additional context or information..."
+                        placeholder="Contexte ou informations supplémentaires..."
                         className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none mt-1.5"
                       />
                     </div>
                     
                     <div className="flex justify-end space-x-2">
-                      <Button variant="outline" type="reset">Clear</Button>
-                      <Button type="submit">Submit Entry</Button>
+                      <Button variant="outline" type="reset">Effacer</Button>
+                      <Button type="submit">Soumettre</Button>
                     </div>
                   </form>
                 </CardContent>
@@ -164,20 +165,20 @@ const DataInput = () => {
               
               <Card>
                 <CardHeader>
-                  <CardTitle>Batch Entries</CardTitle>
-                  <CardDescription>Add multiple records at once</CardDescription>
+                  <CardTitle>Entrées par lot</CardTitle>
+                  <CardDescription>Ajoutez plusieurs enregistrements à la fois</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center justify-between">
                     <div className="space-y-1">
-                      <h4 className="text-sm font-medium">Quick Add Multiple Entries</h4>
+                      <h4 className="text-sm font-medium">Ajout rapide d'entrées multiples</h4>
                       <p className="text-sm text-muted-foreground">
-                        Use our template to add multiple emission sources at once
+                        Utilisez notre modèle pour ajouter plusieurs sources d'émissions à la fois
                       </p>
                     </div>
                     <Button>
                       <Plus className="mr-2 h-4 w-4" />
-                      Add Multiple
+                      Ajouter plusieurs
                     </Button>
                   </div>
                 </CardContent>
@@ -187,34 +188,34 @@ const DataInput = () => {
             <TabsContent value="upload" className="space-y-6 mt-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>File Upload</CardTitle>
+                  <CardTitle>Import de fichier</CardTitle>
                   <CardDescription>
-                    Upload your emissions data from spreadsheets or CSV files.
+                    Chargez vos données d'émissions à partir de feuilles de calcul ou de fichiers CSV.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-col items-center justify-center border-2 border-dashed border-muted-foreground/25 rounded-lg p-10 text-center">
                     <Upload className="h-10 w-10 text-muted-foreground mb-4" />
-                    <h3 className="text-lg font-semibold mb-2">Drag and drop your file here</h3>
+                    <h3 className="text-lg font-semibold mb-2">Glissez et déposez votre fichier ici</h3>
                     <p className="text-sm text-muted-foreground mb-4">
-                      Supports Excel, CSV, and XML formats up to 10MB
+                      Supporte les formats Excel, CSV et XML jusqu'à 10 Mo
                     </p>
                     <div className="flex flex-col md:flex-row gap-4">
                       <Button onClick={handleFileUpload}>
                         <FileInput className="mr-2 h-4 w-4" />
-                        Browse Files
+                        Parcourir les fichiers
                       </Button>
                       <Button variant="outline">
                         <Download className="mr-2 h-4 w-4" />
-                        Download Template
+                        Télécharger le modèle
                       </Button>
                     </div>
                   </div>
                   
                   <div className="mt-8">
-                    <h4 className="text-sm font-medium mb-4">Upload History</h4>
+                    <h4 className="text-sm font-medium mb-4">Historique des imports</h4>
                     <div className="text-sm text-muted-foreground text-center py-6">
-                      No recent uploads found
+                      Aucun import récent trouvé
                     </div>
                   </div>
                 </CardContent>
@@ -224,9 +225,9 @@ const DataInput = () => {
             <TabsContent value="api" className="space-y-6 mt-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Connect External Data Sources</CardTitle>
+                  <CardTitle>Connexion aux sources de données externes</CardTitle>
                   <CardDescription>
-                    Import data directly from your existing systems and services.
+                    Importez des données directement depuis vos systèmes et services existants.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -237,12 +238,12 @@ const DataInput = () => {
                           <Database className="h-6 w-6 text-primary" />
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-base font-medium">ERP Systems</h3>
+                          <h3 className="text-base font-medium">Systèmes ERP</h3>
                           <p className="text-sm text-muted-foreground mt-1">
-                            Connect with SAP, Oracle, Microsoft Dynamics, and other ERP systems.
+                            Connexion avec SAP, Oracle, Microsoft Dynamics et autres systèmes ERP.
                           </p>
                           <Button variant="outline" size="sm" className="mt-3" onClick={handleConnectAPI}>
-                            Connect
+                            Connecter
                             <ArrowRight className="ml-2 h-4 w-4" />
                           </Button>
                         </div>
@@ -255,12 +256,12 @@ const DataInput = () => {
                           <ListCheck className="h-6 w-6 text-primary" />
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-base font-medium">Sustainability Platforms</h3>
+                          <h3 className="text-base font-medium">Plateformes de durabilité</h3>
                           <p className="text-sm text-muted-foreground mt-1">
-                            Import from specialized sustainability management platforms.
+                            Import depuis des plateformes spécialisées de gestion de durabilité.
                           </p>
                           <Button variant="outline" size="sm" className="mt-3" onClick={handleConnectAPI}>
-                            Connect
+                            Connecter
                             <ArrowRight className="ml-2 h-4 w-4" />
                           </Button>
                         </div>
@@ -273,12 +274,12 @@ const DataInput = () => {
                           <Cloud className="h-6 w-6 text-primary" />
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-base font-medium">Cloud Services</h3>
+                          <h3 className="text-base font-medium">Services cloud</h3>
                           <p className="text-sm text-muted-foreground mt-1">
-                            Calculate emissions from AWS, Azure, Google Cloud, and other providers.
+                            Calculez les émissions d'AWS, Azure, Google Cloud et autres fournisseurs.
                           </p>
                           <Button variant="outline" size="sm" className="mt-3" onClick={handleConnectAPI}>
-                            Connect
+                            Connecter
                             <ArrowRight className="ml-2 h-4 w-4" />
                           </Button>
                         </div>
@@ -291,24 +292,17 @@ const DataInput = () => {
                           <Building className="h-6 w-6 text-primary" />
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-base font-medium">Facility Management</h3>
+                          <h3 className="text-base font-medium">Gestion des installations</h3>
                           <p className="text-sm text-muted-foreground mt-1">
-                            Connect with building management systems for energy usage data.
+                            Intégration avec des systèmes de gestion de bâtiments et d'énergie.
                           </p>
                           <Button variant="outline" size="sm" className="mt-3" onClick={handleConnectAPI}>
-                            Connect
+                            Connecter
                             <ArrowRight className="ml-2 h-4 w-4" />
                           </Button>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  
-                  <div className="flex justify-end mt-6">
-                    <Button variant="outline">
-                      <Plus className="mr-2 h-4 w-4" />
-                      Custom API Integration
-                    </Button>
                   </div>
                 </CardContent>
               </Card>
