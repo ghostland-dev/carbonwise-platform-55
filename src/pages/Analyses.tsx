@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { BarChart, LineChart, PieChart, Calendar, Filter, Download, ArrowUpRight } from "lucide-react";
+import { BarChart as BarChartIcon, LineChart as LineChartIcon, PieChart as PieChartIcon, Calendar, Filter, Download, ArrowUpRight } from "lucide-react";
 import {
   AreaChart,
   Area,
@@ -18,6 +18,8 @@ import {
   PieChart as RechartsPieChart,
   Pie,
   Cell,
+  LineChart as RechartsLineChart,
+  Line,
 } from "recharts";
 
 const Analyses = () => {
@@ -57,6 +59,19 @@ const Analyses = () => {
     { name: "Intensité carbone", critere: "tCO₂e/M€", q1: 18.5, q2: 17.2, q3: 16.8, q4: 15.4 },
     { name: "Énergie renouvelable", critere: "%", q1: 65, q2: 72, q3: 75, q4: 78 },
     { name: "Déchets valorisés", critere: "%", q1: 45, q2: 52, q3: 58, q4: 60 },
+  ];
+
+  const previsionsData = [
+    { annee: "2021", emissions: 520, objectif: 520, prediction: 520 },
+    { annee: "2022", emissions: 480, objectif: 494, prediction: 480 },
+    { annee: "2023", emissions: 456, objectif: 468, prediction: 456 },
+    { annee: "2024", emissions: null, objectif: 442, prediction: 432 },
+    { annee: "2025", emissions: null, objectif: 416, prediction: 410 },
+    { annee: "2026", emissions: null, objectif: 390, prediction: 385 },
+    { annee: "2027", emissions: null, objectif: 364, prediction: 362 },
+    { annee: "2028", emissions: null, objectif: 338, prediction: 340 },
+    { annee: "2029", emissions: null, objectif: 312, prediction: 320 },
+    { annee: "2030", emissions: null, objectif: 286, prediction: 300 },
   ];
 
   return (
@@ -260,19 +275,8 @@ const Analyses = () => {
               <CardContent>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart
-                      data={[
-                        { annee: "2021", emissions: 520, objectif: 520, prediction: 520 },
-                        { annee: "2022", emissions: 480, objectif: 494, prediction: 480 },
-                        { annee: "2023", emissions: 456, objectif: 468, prediction: 456 },
-                        { annee: "2024", emissions: null, objectif: 442, prediction: 432 },
-                        { annee: "2025", emissions: null, objectif: 416, prediction: 410 },
-                        { annee: "2026", emissions: null, objectif: 390, prediction: 385 },
-                        { annee: "2027", emissions: null, objectif: 364, prediction: 362 },
-                        { annee: "2028", emissions: null, objectif: 338, prediction: 340 },
-                        { annee: "2029", emissions: null, objectif: 312, prediction: 320 },
-                        { annee: "2030", emissions: null, objectif: 286, prediction: 300 },
-                      ]}
+                    <RechartsLineChart
+                      data={previsionsData}
                       margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
                     >
                       <XAxis dataKey="annee" />
@@ -291,8 +295,8 @@ const Analyses = () => {
                       </defs>
                       <Area type="monotone" dataKey="emissions" name="Émissions réelles" stroke="#4FD1C5" strokeWidth={2} fill="url(#colorEmissions)" fillOpacity={0.3} />
                       <Area type="monotone" dataKey="prediction" name="Prévisions" stroke="#4FD1C5" strokeDasharray="5 5" fill="url(#colorPrediction)" fillOpacity={0.1} />
-                      <Area type="monotone" dataKey="objectif" name="Objectif de réduction" stroke="#F6AD55" strokeWidth={2} fill="none" />
-                    </LineChart>
+                      <Line type="monotone" dataKey="objectif" name="Objectif de réduction" stroke="#F6AD55" strokeWidth={2} />
+                    </RechartsLineChart>
                   </ResponsiveContainer>
                 </div>
               </CardContent>
@@ -361,7 +365,7 @@ const Analyses = () => {
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <div className="bg-green-100 p-2 rounded-full">
-                      <BarChart className="h-4 w-4 text-green-600" />
+                      <BarChartIcon className="h-4 w-4 text-green-600" />
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">Passage à l'énergie renouvelable</h4>
@@ -371,7 +375,7 @@ const Analyses = () => {
                   
                   <div className="flex items-start gap-3">
                     <div className="bg-blue-100 p-2 rounded-full">
-                      <LineChart className="h-4 w-4 text-blue-600" />
+                      <LineChartIcon className="h-4 w-4 text-blue-600" />
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">Optimisation de la chaîne d'approvisionnement</h4>
@@ -381,7 +385,7 @@ const Analyses = () => {
                   
                   <div className="flex items-start gap-3">
                     <div className="bg-amber-100 p-2 rounded-full">
-                      <PieChart className="h-4 w-4 text-amber-600" />
+                      <PieChartIcon className="h-4 w-4 text-amber-600" />
                     </div>
                     <div>
                       <h4 className="font-medium text-sm">Efficacité énergétique des bâtiments</h4>
