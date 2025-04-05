@@ -10,6 +10,18 @@ const TabsControl = () => {
         <TabsTrigger value="details">Détails</TabsTrigger>
         <TabsTrigger value="rapports">Rapports</TabsTrigger>
       </TabsList>
+      
+      <TabsContent value="apercu">
+        {/* Contenu de l'onglet Aperçu */}
+      </TabsContent>
+      
+      <TabsContent value="details">
+        {/* Contenu de l'onglet Détails */}
+      </TabsContent>
+      
+      <TabsContent value="rapports">
+        {/* Contenu de l'onglet Rapports */}
+      </TabsContent>
     </Tabs>
   );
 };

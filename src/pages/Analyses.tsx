@@ -92,8 +92,296 @@ const Analyses = () => {
               <TabsTrigger value="comparaison">Comparaison</TabsTrigger>
               <TabsTrigger value="prévisions">Prévisions</TabsTrigger>
             </TabsList>
-          </Tabs>
+          
+            <TabsContent value="emissions" className="mt-0">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <Card className="lg:col-span-2 animate-slide-up">
+                  <CardHeader>
+                    <CardTitle>Évolution des émissions par scope</CardTitle>
+                    <CardDescription>Tendance sur les 6 derniers mois</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-80">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={emissionsData} margin={{ top: 10, right: 30, left: 0, bottom: 10 }}>
+                          <defs>
+                            <linearGradient id="colorScope1" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#4FD1C5" stopOpacity={0.8} />
+                              <stop offset="95%" stopColor="#4FD1C5" stopOpacity={0.2} />
+                            </linearGradient>
+                            <linearGradient id="colorScope2" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#90CDF4" stopOpacity={0.8} />
+                              <stop offset="95%" stopColor="#90CDF4" stopOpacity={0.2} />
+                            </linearGradient>
+                            <linearGradient id="colorScope3" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#F6AD55" stopOpacity={0.8} />
+                              <stop offset="95%" stopColor="#F6AD55" stopOpacity={0.2} />
+                            </linearGradient>
+                          </defs>
+                          <XAxis dataKey="mois" tick={{ fontSize: 12 }} />
+                          <YAxis tick={{ fontSize: 12 }} unit=" tCO₂e" />
+                          <Tooltip />
+                          <Legend />
+                          <Area type="monotone" dataKey="scope1" name="Scope 1" stroke="#4FD1C5" fillOpacity={1} fill="url(#colorScope1)" />
+                          <Area type="monotone" dataKey="scope2" name="Scope 2" stroke="#90CDF4" fillOpacity={1} fill="url(#colorScope2)" />
+                          <Area type="monotone" dataKey="scope3" name="Scope 3" stroke="#F6AD55" fillOpacity={1} fill="url(#colorScope3)" />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </CardContent>
+                </Card>
 
+                <Card className="animate-slide-up animation-delay-100">
+                  <CardHeader>
+                    <CardTitle>Répartition des émissions</CardTitle>
+                    <CardDescription>Par activité</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-60 mb-4">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <RechartsPieChart>
+                          <Pie
+                            data={sectorialData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={60}
+                            outerRadius={80}
+                            fill="#8884d8"
+                            dataKey="value"
+                            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                          >
+                            {sectorialData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                          </Pie>
+                          <Tooltip formatter={(value) => [`${value}%`, "Proportion"]} />
+                        </RechartsPieChart>
+                      </ResponsiveContainer>
+                    </div>
+                    <div className="space-y-2">
+                      {sectorialData.map((item, index) => (
+                        <div key={index} className="flex items-center justify-between text-sm">
+                          <div className="flex items-center gap-2">
+                            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }}></span>
+                            <span>{item.name}</span>
+                          </div>
+                          <span className="font-medium">{item.value}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="comparaison" className="mt-0">
+              <div className="grid grid-cols-1 gap-6 mb-6">
+                <Card className="animate-slide-up">
+                  <CardHeader>
+                    <CardTitle>Comparaison année sur année</CardTitle>
+                    <CardDescription>Évolution des émissions totales par rapport à l'année précédente</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-80">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <RechartsBarChart
+                          data={comparaisonData}
+                          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                        >
+                          <XAxis dataKey="mois" />
+                          <YAxis unit=" tCO₂e" />
+                          <Tooltip />
+                          <Legend />
+                          <Bar dataKey="precedent" name="Année précédente" fill="#94A3B8" />
+                          <Bar dataKey="actuel" name="Année en cours" fill="#4FD1C5" />
+                        </RechartsBarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="animate-slide-up animation-delay-100">
+                  <CardHeader>
+                    <CardTitle>Indicateurs de performance environnementale</CardTitle>
+                    <CardDescription>Évolution trimestrielle des KPIs environnementaux</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="overflow-x-auto">
+                      <table className="w-full min-w-[600px]">
+                        <thead>
+                          <tr className="border-b">
+                            <th className="text-left py-3 px-4 font-medium">Indicateur</th>
+                            <th className="text-left py-3 px-4 font-medium">Critère</th>
+                            <th className="text-right py-3 px-4 font-medium">Q1 2023</th>
+                            <th className="text-right py-3 px-4 font-medium">Q2 2023</th>
+                            <th className="text-right py-3 px-4 font-medium">Q3 2023</th>
+                            <th className="text-right py-3 px-4 font-medium">Q4 2023</th>
+                            <th className="text-right py-3 px-4 font-medium">Évolution</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {indicateursData.map((row, index) => {
+                            const evolution = ((row.q4 - row.q1) / row.q1) * 100;
+                            const isPositive = row.name.includes("renouvelable") || row.name.includes("valorisés") 
+                              ? evolution > 0 
+                              : evolution < 0;
+                            
+                            return (
+                              <tr key={index} className="border-b hover:bg-muted/50">
+                                <td className="py-3 px-4 font-medium">{row.name}</td>
+                                <td className="py-3 px-4 text-muted-foreground">{row.critere}</td>
+                                <td className="py-3 px-4 text-right">{row.q1}</td>
+                                <td className="py-3 px-4 text-right">{row.q2}</td>
+                                <td className="py-3 px-4 text-right">{row.q3}</td>
+                                <td className="py-3 px-4 text-right">{row.q4}</td>
+                                <td className={`py-3 px-4 text-right font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+                                  {isPositive ? '+' : ''}{evolution.toFixed(1)}%
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="prévisions" className="mt-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <Card className="col-span-1 md:col-span-2 animate-slide-up">
+                  <CardHeader>
+                    <CardTitle>Prévisions d'émissions</CardTitle>
+                    <CardDescription>Basées sur les tendances historiques et les objectifs définis</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-80">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <RechartsLineChart
+                          data={previsionsData}
+                          margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
+                        >
+                          <XAxis dataKey="annee" />
+                          <YAxis domain={[250, 550]} unit=" tCO₂e" />
+                          <Tooltip />
+                          <Legend />
+                          <defs>
+                            <linearGradient id="colorEmissions" x1="0" y1="0" x2="1" y2="0">
+                              <stop offset="0%" stopColor="#4FD1C5" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#4FD1C5" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="colorPrediction" x1="0" y1="0" x2="1" y2="0">
+                              <stop offset="0%" stopColor="#4FD1C5" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#4FD1C5" stopOpacity={0.5} />
+                            </linearGradient>
+                          </defs>
+                          <Area type="monotone" dataKey="emissions" name="Émissions réelles" stroke="#4FD1C5" strokeWidth={2} fill="url(#colorEmissions)" fillOpacity={0.3} />
+                          <Area type="monotone" dataKey="prediction" name="Prévisions" stroke="#4FD1C5" strokeDasharray="5 5" fill="url(#colorPrediction)" fillOpacity={0.1} />
+                          <Line type="monotone" dataKey="objectif" name="Objectif de réduction" stroke="#F6AD55" strokeWidth={2} />
+                        </RechartsLineChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="animate-slide-up animation-delay-100">
+                  <CardHeader>
+                    <CardTitle>Analyse de Scénarios</CardTitle>
+                    <CardDescription>Projections basées sur différentes stratégies</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
+                        <h3 className="font-medium">Scénario de base</h3>
+                        <p className="text-sm text-muted-foreground mt-1 mb-2">Poursuite des tendances actuelles</p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm">Réduction estimée d'ici 2030:</span>
+                          <span className="font-medium">25%</span>
+                        </div>
+                        <Button variant="outline" size="sm" className="w-full mt-3 text-xs">
+                          Explorer le scénario
+                          <ArrowUpRight className="ml-1 h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                      
+                      <div className="p-4 bg-primary/10 border-primary/20 border rounded-lg">
+                        <h3 className="font-medium text-primary">Scénario optimisé</h3>
+                        <p className="text-sm text-muted-foreground mt-1 mb-2">Actions supplémentaires de réduction</p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm">Réduction estimée d'ici 2030:</span>
+                          <span className="font-medium">42%</span>
+                        </div>
+                        <Button size="sm" className="w-full mt-3 text-xs">
+                          Explorer le scénario
+                          <ArrowUpRight className="ml-1 h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                      
+                      <div className="p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
+                        <h3 className="font-medium">Scénario ambitieux</h3>
+                        <p className="text-sm text-muted-foreground mt-1 mb-2">Transformation complète des opérations</p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm">Réduction estimée d'ici 2030:</span>
+                          <span className="font-medium">65%</span>
+                        </div>
+                        <Button variant="outline" size="sm" className="w-full mt-3 text-xs">
+                          Explorer le scénario
+                          <ArrowUpRight className="ml-1 h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="animate-slide-up animation-delay-200">
+                  <CardHeader>
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <CardTitle>Recommandations</CardTitle>
+                        <CardDescription>Actions suggérées pour réduire les émissions</CardDescription>
+                      </div>
+                      <Button variant="outline" size="sm">Voir tout</Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-3">
+                        <div className="bg-green-100 p-2 rounded-full">
+                          <BarChartIcon className="h-4 w-4 text-green-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-sm">Passage à l'énergie renouvelable</h4>
+                          <p className="text-xs text-muted-foreground mt-0.5">Impact potentiel: <span className="font-medium">45%</span> de réduction des émissions Scope 2</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start gap-3">
+                        <div className="bg-blue-100 p-2 rounded-full">
+                          <LineChartIcon className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-sm">Optimisation de la chaîne d'approvisionnement</h4>
+                          <p className="text-xs text-muted-foreground mt-0.5">Impact potentiel: <span className="font-medium">22%</span> de réduction des émissions Scope 3</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start gap-3">
+                        <div className="bg-amber-100 p-2 rounded-full">
+                          <PieChartIcon className="h-4 w-4 text-amber-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-sm">Efficacité énergétique des bâtiments</h4>
+                          <p className="text-xs text-muted-foreground mt-0.5">Impact potentiel: <span className="font-medium">18%</span> de réduction des émissions Scope 1</p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+          </Tabs>
+          
           <div className="flex items-center gap-2 w-full md:w-auto">
             <Button variant="outline" size="sm" className="gap-1">
               <Calendar className="h-4 w-4" />
@@ -109,294 +397,6 @@ const Analyses = () => {
             </Button>
           </div>
         </div>
-
-        <TabsContent value="emissions" className="mt-0">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-            <Card className="lg:col-span-2 animate-slide-up">
-              <CardHeader>
-                <CardTitle>Évolution des émissions par scope</CardTitle>
-                <CardDescription>Tendance sur les 6 derniers mois</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={emissionsData} margin={{ top: 10, right: 30, left: 0, bottom: 10 }}>
-                      <defs>
-                        <linearGradient id="colorScope1" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#4FD1C5" stopOpacity={0.8} />
-                          <stop offset="95%" stopColor="#4FD1C5" stopOpacity={0.2} />
-                        </linearGradient>
-                        <linearGradient id="colorScope2" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#90CDF4" stopOpacity={0.8} />
-                          <stop offset="95%" stopColor="#90CDF4" stopOpacity={0.2} />
-                        </linearGradient>
-                        <linearGradient id="colorScope3" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#F6AD55" stopOpacity={0.8} />
-                          <stop offset="95%" stopColor="#F6AD55" stopOpacity={0.2} />
-                        </linearGradient>
-                      </defs>
-                      <XAxis dataKey="mois" tick={{ fontSize: 12 }} />
-                      <YAxis tick={{ fontSize: 12 }} unit=" tCO₂e" />
-                      <Tooltip />
-                      <Legend />
-                      <Area type="monotone" dataKey="scope1" name="Scope 1" stroke="#4FD1C5" fillOpacity={1} fill="url(#colorScope1)" />
-                      <Area type="monotone" dataKey="scope2" name="Scope 2" stroke="#90CDF4" fillOpacity={1} fill="url(#colorScope2)" />
-                      <Area type="monotone" dataKey="scope3" name="Scope 3" stroke="#F6AD55" fillOpacity={1} fill="url(#colorScope3)" />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="animate-slide-up animation-delay-100">
-              <CardHeader>
-                <CardTitle>Répartition des émissions</CardTitle>
-                <CardDescription>Par activité</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-60 mb-4">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RechartsPieChart>
-                      <Pie
-                        data={sectorialData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={60}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                      >
-                        {sectorialData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip formatter={(value) => [`${value}%`, "Proportion"]} />
-                    </RechartsPieChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className="space-y-2">
-                  {sectorialData.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-2">
-                        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }}></span>
-                        <span>{item.name}</span>
-                      </div>
-                      <span className="font-medium">{item.value}%</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="comparaison" className="mt-0">
-          <div className="grid grid-cols-1 gap-6 mb-6">
-            <Card className="animate-slide-up">
-              <CardHeader>
-                <CardTitle>Comparaison année sur année</CardTitle>
-                <CardDescription>Évolution des émissions totales par rapport à l'année précédente</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RechartsBarChart
-                      data={comparaisonData}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                    >
-                      <XAxis dataKey="mois" />
-                      <YAxis unit=" tCO₂e" />
-                      <Tooltip />
-                      <Legend />
-                      <Bar dataKey="precedent" name="Année précédente" fill="#94A3B8" />
-                      <Bar dataKey="actuel" name="Année en cours" fill="#4FD1C5" />
-                    </RechartsBarChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="animate-slide-up animation-delay-100">
-              <CardHeader>
-                <CardTitle>Indicateurs de performance environnementale</CardTitle>
-                <CardDescription>Évolution trimestrielle des KPIs environnementaux</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <table className="w-full min-w-[600px]">
-                    <thead>
-                      <tr className="border-b">
-                        <th className="text-left py-3 px-4 font-medium">Indicateur</th>
-                        <th className="text-left py-3 px-4 font-medium">Critère</th>
-                        <th className="text-right py-3 px-4 font-medium">Q1 2023</th>
-                        <th className="text-right py-3 px-4 font-medium">Q2 2023</th>
-                        <th className="text-right py-3 px-4 font-medium">Q3 2023</th>
-                        <th className="text-right py-3 px-4 font-medium">Q4 2023</th>
-                        <th className="text-right py-3 px-4 font-medium">Évolution</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {indicateursData.map((row, index) => {
-                        const evolution = ((row.q4 - row.q1) / row.q1) * 100;
-                        const isPositive = row.name.includes("renouvelable") || row.name.includes("valorisés") 
-                          ? evolution > 0 
-                          : evolution < 0;
-                        
-                        return (
-                          <tr key={index} className="border-b hover:bg-muted/50">
-                            <td className="py-3 px-4 font-medium">{row.name}</td>
-                            <td className="py-3 px-4 text-muted-foreground">{row.critere}</td>
-                            <td className="py-3 px-4 text-right">{row.q1}</td>
-                            <td className="py-3 px-4 text-right">{row.q2}</td>
-                            <td className="py-3 px-4 text-right">{row.q3}</td>
-                            <td className="py-3 px-4 text-right">{row.q4}</td>
-                            <td className={`py-3 px-4 text-right font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-                              {isPositive ? '+' : ''}{evolution.toFixed(1)}%
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="prévisions" className="mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <Card className="col-span-1 md:col-span-2 animate-slide-up">
-              <CardHeader>
-                <CardTitle>Prévisions d'émissions</CardTitle>
-                <CardDescription>Basées sur les tendances historiques et les objectifs définis</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RechartsLineChart
-                      data={previsionsData}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 10 }}
-                    >
-                      <XAxis dataKey="annee" />
-                      <YAxis domain={[250, 550]} unit=" tCO₂e" />
-                      <Tooltip />
-                      <Legend />
-                      <defs>
-                        <linearGradient id="colorEmissions" x1="0" y1="0" x2="1" y2="0">
-                          <stop offset="0%" stopColor="#4FD1C5" stopOpacity={1} />
-                          <stop offset="100%" stopColor="#4FD1C5" stopOpacity={1} />
-                        </linearGradient>
-                        <linearGradient id="colorPrediction" x1="0" y1="0" x2="1" y2="0">
-                          <stop offset="0%" stopColor="#4FD1C5" stopOpacity={1} />
-                          <stop offset="100%" stopColor="#4FD1C5" stopOpacity={0.5} />
-                        </linearGradient>
-                      </defs>
-                      <Area type="monotone" dataKey="emissions" name="Émissions réelles" stroke="#4FD1C5" strokeWidth={2} fill="url(#colorEmissions)" fillOpacity={0.3} />
-                      <Area type="monotone" dataKey="prediction" name="Prévisions" stroke="#4FD1C5" strokeDasharray="5 5" fill="url(#colorPrediction)" fillOpacity={0.1} />
-                      <Line type="monotone" dataKey="objectif" name="Objectif de réduction" stroke="#F6AD55" strokeWidth={2} />
-                    </RechartsLineChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="animate-slide-up animation-delay-100">
-              <CardHeader>
-                <CardTitle>Analyse de Scénarios</CardTitle>
-                <CardDescription>Projections basées sur différentes stratégies</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
-                    <h3 className="font-medium">Scénario de base</h3>
-                    <p className="text-sm text-muted-foreground mt-1 mb-2">Poursuite des tendances actuelles</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">Réduction estimée d'ici 2030:</span>
-                      <span className="font-medium">25%</span>
-                    </div>
-                    <Button variant="outline" size="sm" className="w-full mt-3 text-xs">
-                      Explorer le scénario
-                      <ArrowUpRight className="ml-1 h-3.5 w-3.5" />
-                    </Button>
-                  </div>
-                  
-                  <div className="p-4 bg-primary/10 border-primary/20 border rounded-lg">
-                    <h3 className="font-medium text-primary">Scénario optimisé</h3>
-                    <p className="text-sm text-muted-foreground mt-1 mb-2">Actions supplémentaires de réduction</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">Réduction estimée d'ici 2030:</span>
-                      <span className="font-medium">42%</span>
-                    </div>
-                    <Button size="sm" className="w-full mt-3 text-xs">
-                      Explorer le scénario
-                      <ArrowUpRight className="ml-1 h-3.5 w-3.5" />
-                    </Button>
-                  </div>
-                  
-                  <div className="p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
-                    <h3 className="font-medium">Scénario ambitieux</h3>
-                    <p className="text-sm text-muted-foreground mt-1 mb-2">Transformation complète des opérations</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">Réduction estimée d'ici 2030:</span>
-                      <span className="font-medium">65%</span>
-                    </div>
-                    <Button variant="outline" size="sm" className="w-full mt-3 text-xs">
-                      Explorer le scénario
-                      <ArrowUpRight className="ml-1 h-3.5 w-3.5" />
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="animate-slide-up animation-delay-200">
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <CardTitle>Recommandations</CardTitle>
-                    <CardDescription>Actions suggérées pour réduire les émissions</CardDescription>
-                  </div>
-                  <Button variant="outline" size="sm">Voir tout</Button>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <div className="bg-green-100 p-2 rounded-full">
-                      <BarChartIcon className="h-4 w-4 text-green-600" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-sm">Passage à l'énergie renouvelable</h4>
-                      <p className="text-xs text-muted-foreground mt-0.5">Impact potentiel: <span className="font-medium">45%</span> de réduction des émissions Scope 2</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <div className="bg-blue-100 p-2 rounded-full">
-                      <LineChartIcon className="h-4 w-4 text-blue-600" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-sm">Optimisation de la chaîne d'approvisionnement</h4>
-                      <p className="text-xs text-muted-foreground mt-0.5">Impact potentiel: <span className="font-medium">22%</span> de réduction des émissions Scope 3</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <div className="bg-amber-100 p-2 rounded-full">
-                      <PieChartIcon className="h-4 w-4 text-amber-600" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-sm">Efficacité énergétique des bâtiments</h4>
-                      <p className="text-xs text-muted-foreground mt-0.5">Impact potentiel: <span className="font-medium">18%</span> de réduction des émissions Scope 1</p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
       </main>
     </div>
   );
